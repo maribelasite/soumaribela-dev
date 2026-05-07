@@ -1,105 +1,148 @@
 // src/client/config/site.config.ts
-// ⚠️ PREENCHA ESSES DADOS PARA CADA CLIENTE
+// Configuração visual e institucional — MARIBELA
 
 export const siteConfig = {
-  nome: "Nome do Negócio",
+  nome: "Maribela",
 
-  // Logo
-  logoHorizontal: "/logo-horizontal.png",
-  logoVertical: "/logo-vertical.png",
-  logoAlt: "Logo do negócio",
+  // ───────────────── LOGO ─────────────────
+  logoHorizontal: "/logo-maribela-horizontal.png",
+  logoVertical: "/logo-maribela-vertical.png",
+  logoAlt: "Logo Maribela Art & Crochê",
 
-  // WhatsApp
-  whatsapp: "5521999999999",
-  whatsappDisplay: "(21) 99999-9999",
-  whatsappMensagem: "Olá! Vim pelo site e gostaria de mais informações.",
+  // ───────────────── WHATSAPP ─────────────────
+  whatsapp: "5521965907833",
+  whatsappDisplay: "(21) 96590-7833",
+  whatsappMensagem:
+    "Olá! Vim pelo site da Maribela e gostaria de mais informações sobre as peças em crochê.",
 
-  // Header
-  headerCta: "Fale conosco",
+  // ───────────────── HEADER ─────────────────
+  headerCta: "Fazer encomenda",
 
   // Redes sociais
-  instagram: "@instagram",
+  instagram: "@soumaribela",
   facebook: "",
   tiktok: "",
 
-  cidade: "Cidade, Estado",
+  cidade: "Rio de Janeiro, RJ",
 
-  // Navegação desktop
+  // ───────────────── NAVEGAÇÃO DESKTOP ─────────────────
   navLinks: [
-    { label: "Início",   href: "/" },
-    { label: "Sobre",    href: "/sobre" },
-    { label: "Loja",     href: "/loja" },
-    { label: "Blog",     href: "/blog" },
-    { label: "Contato",  href: "/contato" },
+    { label: "Início", href: "/" },
+    { label: "Coleção", href: "/loja" },
+    { label: "Sobre", href: "/sobre" },
+    { label: "Blog", href: "/blog" },
+    { label: "Contato", href: "https://wa.me/5521965907833" },
   ],
 
-  // Navegação mobile
+  // ───────────────── NAVEGAÇÃO MOBILE ─────────────────
   mobileNavLinks: [
-    { label: "Início",   href: "/" },
-    { label: "Sobre",    href: "/sobre" },
-    { label: "Loja",     href: "/loja" },
+    { label: "Início", href: "/" },
+    { label: "Coleção", href: "/loja" },
+    { label: "Sobre", href: "/sobre" },
+    { label: "Blog", href: "/blog" },
     { label: "Carrinho", href: "/loja/carrinho" },
-    { label: "Contato",  href: "/contato" },
+    { label: "Contato", href: "https://wa.me/5521965907833" },
   ],
 
-  // Footer — benefícios
+  // ───────────────── BENEFÍCIOS ─────────────────
   benefits: [
-    { title: "Benefício 1", description: "Descrição do benefício" },
-    { title: "Benefício 2", description: "Descrição do benefício" },
-    { title: "Benefício 3", description: "Descrição do benefício" },
-  ],
-
-  // Footer — links
-  footerNavLinks: [
-    { label: "Início",  href: "/" },
-    { label: "Sobre",   href: "/sobre" },
-    { label: "Contato", href: "/contato" },
-  ],
-
-  footerDescription: "Descrição do seu negócio aqui.",
-  copyrightTagline: "",
-
-    seo: {
-    titulo: "Nome do Negócio – Slogan curto",
-    descricao: "Descrição do negócio...",
-    url: "https://www.seudominio.com.br",
-    ogImage: "/og-image.png",        // ← adicionar
-    keywords: [                       // ← adicionar
-        "palavra-chave 1",
-        "palavra-chave 2",
-    ],
+    {
+      title: "Feito à mão",
+      description:
+        "Cada peça é produzida artesanalmente com cuidado, autenticidade e acabamento delicado.",
     },
+    {
+      title: "Estilo atemporal",
+      description:
+        "Crochê moderno e elegante para compor looks leves, femininos e sofisticados.",
+    },
+    {
+      title: "Conforto & exclusividade",
+      description:
+        "Peças únicas com toque macio, design contemporâneo e personalidade própria.",
+    },
+  ],
+
+  // ───────────────── FOOTER LINKS ─────────────────
+  footerNavLinks: [
+    { label: "Início", href: "/" },
+    { label: "Coleção", href: "/loja" },
+    { label: "Sobre", href: "/sobre" },
+    { label: "Blog", href: "/blog" },
+    { label: "Contato", href: "https://wa.me/5521965907833" },
+  ],
+
+  // ───────────────── FOOTER ─────────────────
+  footerDescription:
+    "A Maribela transforma o crochê artesanal em peças modernas, elegantes e acolhedoras para mulheres que valorizam autenticidade e estilo.",
+
+  copyrightTagline:
+    "Maribela • Amor e dedicação em cada laçada",
+
+  // ───────────────── SEO ─────────────────
+  seo: {
+    titulo: "Crochê feminino artesanal | Bolsas, tops e vestidos | Maribela",
+    descricao:
+      "Compre crochê feminino artesanal online: bolsas, tops, vestidos e acessórios feitos à mão com design autoral e entrega para todo o Brasil.",
+
+    url: "https://www.maribela.com.br",
+
+    ogImage: "/og-image.png",
+
+    keywords: [
+      "crochê moderno",
+      "crochê feminino",
+      "moda artesanal",
+      "crochê elegante",
+      "looks com crochê",
+      "crochê contemporâneo",
+      "peças artesanais",
+      "crochê fashion",
+      "moda handmade",
+      "crochê feminino artesanal",
+    "bolsa de crochê",
+    "top de crochê",
+    "vestido de crochê",
+    "crochê feito à mão",
+    "crochê online",
+    "moda artesanal feminina",
+    "acessórios de crochê",
+    "crochê sob encomenda",
+    "comprar crochê online",
+      "Maribela",
+    ],
+  },
 
   // ─── TEMA VISUAL ────────────────────────────────────────
- theme: {
-    bgPrimary:       "#000000",
-    bgSecondary:     "#0B0B0B",
-    bgTertiary:      "#111111",
-    bgCard:          "#1a1a1a",
-    bgHover:         "#222222",
-    overlay:         "#0A0A0F",
+  theme: {
+    bgPrimary: "#F2F0EF",
+    bgSecondary: "#FAF9F6",
+    bgTertiary: "#FFFFFF",
+    bgCard: "#FFFFFF",
+    bgHover: "#EAE5E1",
+    overlay: "#4D3828",
 
-    textPrimary:     "#ffffff",    
-    textSecondary:   "#e2e8f0",   
-    textTertiary:    "#94a3b8",   
-    textMuted:       "#9ca3af",
-    textLight:       "#ffffff",
-    textHeroMuted:   "#d1d5db",
+    textPrimary: "#4D3828",
+    textSecondary: "#6B5A4C",
+    textTertiary: "#8C7B6D",
+    textMuted: "#9CA3AF",
+    textLight: "#FFFFFF",
+    textHeroMuted: "#EFE7E2",
 
-    accent:          "#6C63FF",
-    accentHover:     "#5A52E0",
-    accentLight:     "#A78BFA",
+  // 🎯 CORES PRINCIPAIS DO CLIENTE
+    accent: "#9FB7B5",
+    accentHover: "#FF8CA6",
+    accentLight: "#FFD1DB",
 
-    error:           "#dc2626",
-    success:         "#16a34a",
-    info:            "#6C63FF",
+    error: "#DC2626",
+    success: "#16A34A",
+    info: "#9FB7B5",
 
-    border:          "#333333",
-    borderLight:     "#444444",
+    border: "#DDD6D1",
+    borderLight: "#EEE7E2",
 
-    adminBg:         "#1a1a1a",
-    adminText:       "#ffffff",   
-    adminBorder:     "#333333",
-},
-
+    adminBg: "#FFFFFF",
+    adminText: "#4D3828",
+    adminBorder: "#DDD6D1",
+  },
 }

@@ -7,7 +7,9 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "tsx prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts",
+    "seedp": "tsx prisma/seedProdutos.ts",
+    "seedb": "tsx prisma/seedBlog.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.0",

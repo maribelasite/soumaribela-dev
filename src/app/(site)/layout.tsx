@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import "@/app/globals.css";
-import Header from "@/core/components/Header";
 import { CartProvider } from '@/core/context/CartContext';
 import { Toaster } from "react-hot-toast";
-import Footer from "@/core/components/Footer";
 import { siteConfig } from "@/client/config/site.config";
+import Header from "@/client/components/Header";
+import Footer from "@/client/components/Footer";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.seo.url),

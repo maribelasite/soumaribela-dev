@@ -117,7 +117,7 @@ export const siteConfig = {
   pwa: {
   enabled: true,
 
-  shortName: "Nome do Negócio",
+  shortName: "Maribela",
 
   orientation: "any" as const,
 

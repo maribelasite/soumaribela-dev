@@ -1,7 +1,8 @@
+import { withAdmin } from '@/core/lib/admin-access'
 import { NextResponse } from 'next/server'
 import { uploadFilesToCloudinary } from '@/core/lib/cloudinary'
 
-export async function POST(request: Request) {
+export const POST = withAdmin(async function POST(request: Request) {
   const formData = await request.formData()
   const files = formData.getAll('files') as Array<File | string>
 
@@ -22,4 +23,4 @@ export async function POST(request: Request) {
     console.error('Cloudinary upload error:', error)
     return NextResponse.json({ error: 'Falha ao enviar imagens para o Cloudinary.' }, { status: 500 })
   }
-}
+})

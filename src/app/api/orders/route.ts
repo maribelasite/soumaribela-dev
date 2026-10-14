@@ -1,3 +1,4 @@
+import { withAdmin } from '@/core/lib/admin-access'
 // src/app/api/orders/route.ts
 import { checkoutSchema } from '@/core/lib/validators/checkoutSchema'
 import { NextRequest, NextResponse } from 'next/server'
@@ -5,7 +6,7 @@ import { prisma } from '@/core/lib/prisma'
 import { ValidationError } from 'yup'
 
 // ✅ GET - Listar pedidos
-export async function GET(req: NextRequest) {
+export const GET = withAdmin(async function GET(req: NextRequest) {
   try {
     const orders = await prisma.order.findMany({
       include: {
@@ -21,7 +22,7 @@ export async function GET(req: NextRequest) {
     console.error(error)
     return NextResponse.json({ error: 'Erro ao listar pedidos.' }, { status: 500 })
   }
-}
+})
 
 // ✅ POST - Criar pedido
 export async function POST(req: NextRequest) {

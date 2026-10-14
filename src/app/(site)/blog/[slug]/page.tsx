@@ -1,6 +1,11 @@
-import { prisma } from '@/core/lib/prisma'
+import { getPublishedPost } from '@/core/lib/seo-data'
 import { notFound } from 'next/navigation'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
+import { pageMetadata, textDescription, isIndexablePost, blogPostingSchema } from '@/core/lib/seo'
+import JsonLd from '@/core/components/JsonLd'
+import Breadcrumbs from '@/core/components/Breadcrumbs'
+
+export const dynamic = 'force-dynamic'
 import Image from 'next/image'
 
 interface PageProps {
@@ -9,45 +14,17 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const post = await prisma.post.findFirst({
-    where: { slug, published: true },
-    select: {
-      title: true,
-      excerpt: true,
-      coverImage: true,
-    },
-  })
-
-  if (!post) {
-    return {
-      title: 'Post não encontrado',
-    }
-  }
-
-  return {
-    title: post.title,
-    description: post.excerpt || '',
-    openGraph: {
-      title: post.title,
-      description: post.excerpt || '',
-      images: post.coverImage ? [{ url: post.coverImage }] : [],
-    },
-  }
+  const post = await getPublishedPost(slug)
+  if (!post) notFound()
+  return pageMetadata({ title: post.seo?.metaTitle?.trim() || post.title,
+    description: textDescription(post.seo?.metaDesc?.trim() || post.excerpt?.trim() || post.content, post.title),
+    path: '/blog/' + encodeURIComponent(post.slug), image: post.coverImage,
+    article: true, index: isIndexablePost(post) })
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params
-  const post = await prisma.post.findFirst({
-    where: { slug, published: true },
-    select: {
-      id: true,
-      title: true,
-      content: true,
-      coverImage: true,
-      createdAt: true,
-      excerpt: true,
-    },
-  })
+  const post = await getPublishedPost(slug)
 
   if (!post) {
     notFound()
@@ -56,12 +33,17 @@ export default async function BlogPostPage({ params }: PageProps) {
   return (
     <div className="min-h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)]">
       <article className="max-w-4xl mx-auto px-4 py-8">
+        <JsonLd data={blogPostingSchema(post)} />
+        <Breadcrumbs items={[{ name: 'Início', path: '/' }, { name: 'Blog', path: '/blog' },
+          ...(post.category ? [{ name: post.category.name, path: '/blog/categoria/' + encodeURIComponent(post.category.slug) }] : []),
+          { name: post.title, path: '/blog/' + encodeURIComponent(post.slug) }]} />
         {post.coverImage && (
           <div className="relative h-64 md:h-96 mb-8 rounded-lg overflow-hidden">
             <Image
               src={post.coverImage}
               alt={post.title}
               fill
+              sizes="(max-width: 768px) 100vw, 896px"
               className="object-cover"
             />
           </div>

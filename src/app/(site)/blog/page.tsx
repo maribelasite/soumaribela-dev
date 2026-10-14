@@ -1,6 +1,11 @@
+import { pageMetadata } from '@/core/lib/seo'
 import { prisma } from '@/core/lib/prisma'
 import Link from 'next/link'
 import Image from 'next/image'
+
+export const dynamic = 'force-dynamic'
+export const metadata = pageMetadata({ title: 'Blog: crochê artesanal e inspirações',
+  description: 'Artigos da Maribela sobre crochê, peças artesanais, cuidados e inspirações.', path: '/blog' })
 
 export default async function BlogPage() {
   const posts = await prisma.post.findMany({
@@ -34,6 +39,7 @@ export default async function BlogPage() {
                     src={post.coverImage}
                     alt={post.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover"
                   />
                 </div>

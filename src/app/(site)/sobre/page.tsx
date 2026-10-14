@@ -1,16 +1,19 @@
-import { prisma } from "@/core/lib/prisma"
+import { getCustomPage } from "@/core/lib/seo-data"
+import { pageMetadata, textDescription } from "@/core/lib/seo"
 import { notFound } from "next/navigation"
 
-async function getPage() {
-  return prisma.customPage.findUnique({
-    where: {
-        slug: "sobre"
-    }
-  })
+export const dynamic = 'force-dynamic'
+
+export async function generateMetadata() {
+  const page = await getCustomPage('sobre')
+  if (!page) notFound()
+  return pageMetadata({ title: page.title || 'Sobre a Maribela',
+    description: textDescription(page.introText, 'Conheça a Maribela Art & Crochê e sua proposta de peças artesanais em crochê.'),
+    path: '/sobre', image: page.coverImage, index: Boolean(page.title.trim() && page.introText?.trim()) })
 }
 
 export default async function SobrePage() {
-  const page = await getPage()
+  const page = await getCustomPage('sobre')
   if (!page) return notFound()
 
   return (
@@ -25,7 +28,7 @@ export default async function SobrePage() {
       {/* Imagens */}
       <div className="grid md:grid-cols-2 gap-6">
         {page.coverImage && (
-          <img src={page.coverImage} className="rounded-2xl" />
+          <img src={page.coverImage} alt={page.title} className="rounded-2xl" />
         )}
       </div>
 

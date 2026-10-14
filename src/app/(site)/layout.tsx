@@ -1,3 +1,5 @@
+import JsonLd from '@/core/components/JsonLd'
+import { SITE_URL, organizationSchema, websiteSchema } from '@/core/lib/seo'
 import type { Metadata, Viewport } from "next";
 import "@/app/globals.css";
 import { CartProvider } from '@/core/context/CartContext';
@@ -7,31 +9,9 @@ import Header from "@/client/components/Header";
 import Footer from "@/client/components/Footer";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.seo.url),
-  title: siteConfig.seo.titulo,               
-  description: siteConfig.seo.descricao,       
-  authors: [{ name: siteConfig.nome }],        
-  keywords: siteConfig.seo.keywords,           
-  openGraph: {
-    title: siteConfig.seo.titulo,
-    description: siteConfig.seo.descricao,
-    url: siteConfig.seo.url,                   
-    siteName: siteConfig.nome,
-    locale: "pt_BR",
-    type: "website",
-    images: [{
-      url: siteConfig.seo.ogImage,            
-      width: 1200,
-      height: 630,
-      alt: siteConfig.seo.titulo,
-    }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: siteConfig.nome,
-    description: siteConfig.seo.descricao,
-    images: [siteConfig.seo.ogImage],
-  },
+  metadataBase: new URL(SITE_URL),
+  title: { default: siteConfig.seo.titulo, template: '%s | Maribela Art & Crochê' },
+  description: siteConfig.seo.descricao,
 };
 export const viewport: Viewport = {
   width: "device-width",
@@ -88,6 +68,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         }}
       >
         <Toaster position="top-right" reverseOrder={false} />
+        <JsonLd data={organizationSchema()} />
+        <JsonLd data={websiteSchema()} />
         <CartProvider>
           <div className="flex flex-col min-h-screen">
             <Header />

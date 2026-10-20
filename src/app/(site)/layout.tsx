@@ -1,3 +1,4 @@
+import PwaProvider from '@/core/pwa/PwaProvider'
 import JsonLd from '@/core/components/JsonLd'
 import { SITE_URL, organizationSchema, websiteSchema } from '@/core/lib/seo'
 import type { Metadata, Viewport } from "next";
@@ -12,6 +13,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: siteConfig.seo.titulo, template: '%s | Maribela Art & Crochê' },
   description: siteConfig.seo.descricao,
+  applicationName: siteConfig.nome, manifest: "/manifest.webmanifest",
+  appleWebApp: { capable: true, title: siteConfig.pwa.shortName },
+  icons: { apple: siteConfig.pwa.appleTouchIcon },
 };
 export const viewport: Viewport = {
   width: "device-width",
@@ -70,7 +74,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Toaster position="top-right" reverseOrder={false} />
         <JsonLd data={organizationSchema()} />
         <JsonLd data={websiteSchema()} />
-        <CartProvider>
+        <PwaProvider enabled={siteConfig.pwa.enabled && process.env.NODE_ENV === "production"}><CartProvider>
           <div className="flex flex-col min-h-screen">
             <Header />
             <main
@@ -80,7 +84,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             </main>
             <Footer />
           </div>
-        </CartProvider>
+        </CartProvider></PwaProvider>
       </body>
     </html>
   )

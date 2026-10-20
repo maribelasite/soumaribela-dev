@@ -15,6 +15,29 @@ export function isSameOriginMutation(request: Request): boolean {
   try { return new URL(origin).origin === new URL(request.url).origin } catch { return false }
 }
 
+// Best effort per process. A shared limiter at the hosting edge is still recommended.
+const attempts = new Map<string, { count: number; until: number }>()
+export function allowAttempt(key: string, limit = 20, windowMs = 60_000): boolean {
+  const now = Date.now()
+  if (attempts.size > 10_000) {
+    for (const [entry, value] of attempts) if (value.until <= now) attempts.delete(entry)
+    if (attempts.size > 10_000) return false
+  }
+  const current = attempts.get(key)
+  if (!current || current.until <= now) {
+    attempts.set(key, { count: 1, until: now + windowMs })
+    return true
+  }
+  return ++current.count <= limit
+}
+
+export function mutationGuard(request: Request, scope: string): Response | null {
+  if (!isSameOriginMutation(request)) return privateJson({ error: 'Origem não permitida.' }, 403)
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown'
+  if (!allowAttempt(`${scope}:${ip}`)) return privateJson({ error: 'Aguarde antes de tentar novamente.' }, 429)
+  return null
+}
+
 export function privateJson(body: unknown, status = 200) {
   return NextResponse.json(body, { status, headers: { 'Cache-Control': 'private, no-store' } })
 }

@@ -163,7 +163,8 @@ test('public product GET and authorized admin listing/create/update/delete remai
 test('every private admin page checks server authorization before rendering/querying', () => {
   const pages = listFiles('src/app/(admin)/admin').filter(file => file.endsWith('page.tsx') &&
     !file.includes('login') && !file.includes('setup-admin'))
-  assert.equal(pages.length, 16)
+  assert.ok(pages.length >= 17)
+  assert.ok(pages.some(file => file.replaceAll('\\', '/').endsWith('/configuracoes/pagamentos/page.tsx')))
   for (const file of pages) {
     const source = readFileSync(file, 'utf8')
     assert.match(source, /await requireAdminPage\(\)/, file)

@@ -1,4 +1,7 @@
-import { prisma } from '@/core/lib/prisma'
+import { getBlogCategory } from '@/core/lib/seo-data'
+import { notFound } from 'next/navigation'
+import { pageMetadata, textDescription, isIndexablePost } from '@/core/lib/seo'
+import Breadcrumbs from '@/core/components/Breadcrumbs'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -8,25 +11,26 @@ type Props = {
   params: Promise<{ slug: string }>
 }
 
+export async function generateMetadata({ params }: Props) {
+  const { slug } = await params
+  const category = await getBlogCategory(slug)
+  if (!category) notFound()
+  return pageMetadata({ title: category.name + ' — Blog',
+    description: textDescription(category.description, 'Artigos da Maribela sobre ' + category.name + '.'),
+    path: '/blog/categoria/' + encodeURIComponent(category.slug), image: category.image,
+    index: Boolean(category.name.trim()) && category.posts.some(isIndexablePost) })
+}
+
 export default async function CategoriaPage({ params }: Props) {
   const { slug } = await params
 
-  const category = await prisma.blogCategory.findUnique({
-    where: { slug },
-    include: {
-      posts: {
-        where: { published: true },
-        orderBy: { createdAt: 'desc' },
-      },
-    },
-  })
-
-  if (!category) {
-    return <div className="p-10 text-center">Categoria não encontrada</div>
-  }
+  const category = await getBlogCategory(slug)
+  if (!category) notFound()
 
   return (
     <main className="max-w-6xl mx-auto px-6 py-12 space-y-10">
+      <Breadcrumbs items={[{ name: 'Início', path: '/' }, { name: 'Blog', path: '/blog' },
+        { name: category.name, path: '/blog/categoria/' + encodeURIComponent(category.slug) }]} />
 
       {/* HEADER */}
       <div className="text-center space-y-4">
@@ -62,6 +66,7 @@ export default async function CategoriaPage({ params }: Props) {
                     src={post.coverImage}
                     alt={post.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover group-hover:scale-105 transition"
                   />
                 </div>

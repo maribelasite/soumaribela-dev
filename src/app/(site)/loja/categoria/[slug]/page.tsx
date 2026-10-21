@@ -1,3 +1,8 @@
+import { cache } from 'react'
+import { pageMetadata, isIndexableProduct } from '@/core/lib/seo'
+import Breadcrumbs from '@/core/components/Breadcrumbs'
+
+export const dynamic = 'force-dynamic'
 // app/loja/categoria/[slug]/page.tsx
 import Link from 'next/link'
 import Image from 'next/image'
@@ -17,7 +22,7 @@ type ProductWithRelations = Prisma.ProductGetPayload<{
   }
 }>
 
-async function getProdutosByCategoriaSlug(
+const getProdutosByCategoriaSlug = cache(async function getProdutosByCategoriaSlug(
   slug: string
 ): Promise<{ produtos: ProductWithRelations[]; categoriaNome: string }> {
   if (slug === 'todos') {
@@ -58,6 +63,16 @@ async function getProdutosByCategoriaSlug(
     produtos: categoria.products,
     categoriaNome: categoria.name,
   }
+})
+
+export async function generateMetadata({ params }: CategoriaPageProps) {
+  const { slug } = await params
+  const { produtos, categoriaNome } = await getProdutosByCategoriaSlug(slug)
+  if (!categoriaNome) notFound()
+  return pageMetadata({ title: slug === 'todos' ? 'Loja de crochê artesanal' : categoriaNome,
+    description: slug === 'todos' ? 'Conheça a coleção de peças artesanais em crochê da Maribela Art & Crochê.' : 'Conheça ' + categoriaNome + ' na coleção de crochê artesanal da Maribela.',
+    path: slug === 'todos' ? '/loja' : '/loja/categoria/' + encodeURIComponent(slug),
+    index: slug === 'todos' || produtos.some(product => isIndexableProduct(product)) })
 }
 
 export default async function CategoriaPage({ params }: CategoriaPageProps) {
@@ -69,6 +84,8 @@ export default async function CategoriaPage({ params }: CategoriaPageProps) {
 
   return (
     <main>
+      <div className="px-4 md:px-20 pt-4"><Breadcrumbs items={[{ name: 'Início', path: '/' }, { name: 'Loja', path: '/loja' },
+        ...(slug === 'todos' ? [] : [{ name: categoriaNome, path: '/loja/categoria/' + encodeURIComponent(slug) }])]} /></div>
       <section className="px-4 py-6 md:px-20 md:py-20">
         <header className="max-w-6xl mx-auto mb-8 md:mb-10">
           <h1
@@ -110,7 +127,7 @@ export default async function CategoriaPage({ params }: CategoriaPageProps) {
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto">
             {produtos.map((product) => {
-              const image = product.images?.[0]?.url || '/placeholder.png'
+              const image = product.images?.[0]?.url || '/logo-maribela-horizontal.png'
 
               return (
                 <Link
@@ -123,6 +140,7 @@ export default async function CategoriaPage({ params }: CategoriaPageProps) {
                       src={image}
                       alt={product.name}
                       fill
+                      sizes="(max-width: 768px) 50vw, 25vw"
                       className="object-cover"
                     />
                   </div>

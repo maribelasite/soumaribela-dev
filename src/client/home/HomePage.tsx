@@ -232,16 +232,14 @@ export default async function HomePage() {
       <div className="min-w-0">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: "Tops", count: "12 peças", image: "/colecao-top.jpg" },
-            { label: "Blusas", count: "18 peças", image: "/colecao-blusa.jpg" },
+            { label: "Tops", image: "/colecao-top.jpg" },
+            { label: "Blusas", image: "/colecao-blusa.jpg" },
             {
               label: "Acessórios",
-              count: "24 peças",
               image: "/colecao-acessorio.jpg",
             },
             {
               label: "Vestidos",
-              count: "10 peças",
               image: "/colecao-vestido.jpg",
             },
           ].map((item) => (
@@ -272,15 +270,6 @@ export default async function HomePage() {
                   }}
                 >
                   {item.label}
-                </p>
-                <p
-                  className="text-xs"
-                  style={{
-                    color: "var(--color-text-secondary)",
-                    fontFamily: "var(--font-body)",
-                  }}
-                >
-                  {item.count}
                 </p>
               </div>
             </Link>

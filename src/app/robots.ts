@@ -1,28 +1,8 @@
-import type { MetadataRoute } from "next";
-
-import { siteConfig } from "@/client/config/site.config";
+import type { MetadataRoute } from 'next'
+import { canonicalUrl, SITE_URL } from '@/core/lib/seo'
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = siteConfig.seo.url.replace(/\/+$/, "");
-
-  return {
-    rules: [
-      {
-        userAgent: "*",
-        allow: "/",
-        disallow: [
-          "/admin/",
-          "/api/",
-          "/login/",
-          "/cadastro/",
-          "/carrinho/",
-          "/checkout/",
-          "/pedido/",
-          "/minha-conta/",
-        ],
-      },
-    ],
-    sitemap: `${baseUrl}/sitemap.xml`,
-    host: baseUrl,
-  };
+  return { rules: { userAgent: '*', allow: '/', disallow: ['/api/'] },
+    sitemap: canonicalUrl('/sitemap.xml'), host: SITE_URL }
+  // Admin/operational pages remain crawlable so their noindex directives can be read.
 }

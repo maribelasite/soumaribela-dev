@@ -19,7 +19,7 @@ export type ProductDetailClientProps = {
 export default function ProductDetailClient({ product }: { product: ProductDetailClientProps }) {
   const { addItem } = useCart()
   const [selectedImage, setSelectedImage] = useState(
-    product.images?.[0] || '/logo-artesanaio.jpeg'
+    product.images?.[0] || '/logo-maribela-horizontal.png'
   )
   const [selectedColor, setSelectedColor] = useState<{
     id: string
@@ -76,7 +76,7 @@ export default function ProductDetailClient({ product }: { product: ProductDetai
             >
               <img
                 src={img}
-                alt={`thumb-${index}`}
+                alt={`${product.name} — imagem ${index + 1}`}
                 className="w-full h-full object-cover"
               />
             </button>
@@ -180,7 +180,7 @@ export default function ProductDetailClient({ product }: { product: ProductDetai
               productId: product.id,
               name: product.name,
               slug: product.slug,
-              imageUrl: product.images[0] || '/logo-artesanaio.jpeg',
+              imageUrl: product.images[0] || '/logo-maribela-horizontal.png',
               price: product.price,
               color: selectedColor
                 ? { name: selectedColor.name, hex: selectedColor.hex }

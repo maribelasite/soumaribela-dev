@@ -1,8 +1,11 @@
+import { pageMetadata } from '@/core/lib/seo'
 import Link from 'next/link'
 import { prisma } from '@/core/lib/prisma'
 import Image from 'next/image'
 
 export const dynamic = 'force-dynamic'
+export const metadata = pageMetadata({ title: 'Loja de crochê artesanal',
+  description: 'Conheça a coleção de peças artesanais em crochê da Maribela Art & Crochê.', path: '/loja' })
 
 async function getProducts() {
   return prisma.product.findMany({
@@ -44,9 +47,10 @@ export default async function LojaPage() {
 
   return (
     <main>
+      <h1 className="px-4 pt-6 md:px-20 text-2xl font-semibold">Loja de crochê artesanal</h1>
       <section className="px-4 py-6 md:px-20 md:py-20 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
         {products.map((product) => {
-          const image = product.images?.[0]?.url || '/placeholder.png'
+          const image = product.images?.[0]?.url || '/logo-maribela-horizontal.png'
 
           return (
             <Link
@@ -59,6 +63,7 @@ export default async function LojaPage() {
                   src={image}
                   alt={product.name}
                   fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
                   className="object-cover"
                 />
               </div>

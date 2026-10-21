@@ -196,10 +196,7 @@ export default function Footer() {
 
             <ul className="space-y-3">
               {[
-                { label: "Perguntas frequentes", href: "/faq" },
-                { label: "Trocas e devoluções", href: "/trocas-e-devolucoes" },
-                { label: "Política de privacidade", href: "/privacidade" },
-                { label: "Termos de uso", href: "/termos" },
+                { label: "Encomendas e perguntas frequentes", href: "/personalizado" },
               ].map((item) => (
                 <li key={item.href}>
                   <Link

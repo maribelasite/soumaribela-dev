@@ -1,3 +1,4 @@
+import { withAdmin } from '@/core/lib/admin-access'
 // src/app/api/products/route.ts
 import { prisma } from '@/core/lib/prisma'
 import { NextResponse } from 'next/server'
@@ -21,7 +22,7 @@ type CreateProductRequest = {
   sizes?: SizeInput[]
 }
 
-export async function POST(req: Request) {
+export const POST = withAdmin(async function POST(req: Request) {
   const body = (await req.json()) as CreateProductRequest
   const { name, slug, price, imageUrl, description, colors, sizes } = body
 
@@ -64,7 +65,7 @@ export async function POST(req: Request) {
     console.error('Erro ao criar produto:', error)
     return NextResponse.json({ message: 'Erro interno' }, { status: 500 })
   }
-}
+})
 
 export async function GET() {
   try {

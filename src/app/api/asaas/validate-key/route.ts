@@ -1,3 +1,4 @@
+import { withAdmin } from '@/core/lib/admin-access'
 /**
  * Validates Asaas API key by making a simple test request
  * GET /api/asaas/validate-key
@@ -8,7 +9,7 @@ import { asaasFetch, maskApiKey, getAsaasConfig } from '@/core/lib/asaas';
 
 export const runtime = 'nodejs';
 
-export async function GET(req: NextRequest) {
+export const GET = withAdmin(async function GET(req: NextRequest) {
   try {
     const config = getAsaasConfig();
     const env = config.isSandbox ? 'SANDBOX' : 'PRODUCTION';
@@ -30,9 +31,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(
       {
         valid: false,
-        error: error.message || 'Erro ao validar chave Asaas',
+        error: 'Não foi possível validar a configuração Asaas.',
       },
       { status: 400 }
     );
   }
-}
+})

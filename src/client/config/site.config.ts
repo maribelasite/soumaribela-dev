@@ -87,7 +87,7 @@ export const siteConfig = {
 
     url: "https://www.maribela.com.br",
 
-    ogImage: "/og-image.png",
+    ogImage: "/hero-maribela.jpg",
 
     keywords: [
       "crochê moderno",

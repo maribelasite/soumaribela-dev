@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 
 type Categoria = {
@@ -10,16 +10,8 @@ type Categoria = {
   slug: string
 }
 
-export default function CategoriasMenu() {
-  const [categorias, setCategorias] = useState<Categoria[]>([])
+export default function CategoriasMenu({ categorias }: { categorias: Categoria[] }) {
   const [open, setOpen] = useState(false)
-
-  useEffect(() => {
-    fetch('/api/categorias')
-      .then((res) => res.json())
-      .then((data) => setCategorias(data))
-      .catch((err) => console.error('Erro ao carregar categorias:', err))
-  }, [])
 
   return (
     <nav className="w-full bg-[var(--color-bg-primary)] relative z-[999]">
